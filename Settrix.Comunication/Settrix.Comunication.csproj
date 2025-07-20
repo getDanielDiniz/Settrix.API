@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Settrix.Domain\Settrix.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="*.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Update="*.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>%(Filename).resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Resources\User\UserResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserValidationResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Update="Resources\User\UserResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserResource.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Resources\User\PasswordResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PasswordResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Update="Resources\User\PasswordResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PasswordResource.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Resources\User\UserResource.pt-BR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserResource.pt-BR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Update="Resources\User\UserResource.pt-BR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserResource.pt-BR.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

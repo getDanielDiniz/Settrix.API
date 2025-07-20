@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>ComunTestsUtilities</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
+      <PackageReference Include="Bogus" Version="35.6.3" />
+      <PackageReference Include="Moq" Version="4.20.72" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Settrix.Application\Settrix.Application.csproj" />
+      <ProjectReference Include="..\Settrix.Comunication\Settrix.Comunication.csproj" />
+      <ProjectReference Include="..\Settrix.Domain\Settrix.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
