@@ -32,7 +32,7 @@ public class UserUseCaseUnitTest
         
         var act = async ()=>await useCase.Execute(request);
 
-        await act.Should().ThrowAsync<ErrorOnUserValidation>();
+        await act.Should().ThrowAsync<ErrorOnRequestValidation>();
     }
 
     [Fact]

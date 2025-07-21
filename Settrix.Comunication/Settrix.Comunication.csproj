@@ -38,15 +38,27 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PasswordResource.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Update="Resources\User\UserResource.pt-BR.resx">
+    <EmbeddedResource Update="Resources\User\UserResource.pt-br.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UserResource.pt-BR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Update="Resources\User\UserResource.pt-BR.Designer.cs">
+    <Compile Update="Resources\User\UserResource.pt-br.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>UserResource.pt-BR.resx</DependentUpon>
+      <DependentUpon>UserResource.pt-br.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Update="Resources\Company\CompanyResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CompanyResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Update="Resources\Company\CompanyResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CompanyResource.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Resources\User\UserResource.pt-br.resx">
+      <LastGenOutput>UserResource.pt-br.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

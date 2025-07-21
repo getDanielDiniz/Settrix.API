@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Settrix.Domain.Repositories;
+using Settrix.Domain.Repositories.Company;
 using Settrix.Domain.Security.Authentication;
 using Settrix.Domain.Security.Criptography;
 using Settrix.Domain.Services.LoggedUser;
@@ -28,8 +29,13 @@ public static class DependencyInjectionExtense
     }
 
     private static void AddRepositories(IServiceCollection services) {
+        //User Repositories
         services.AddScoped<IReadOnlyUserRepository, UserRepository>();
         services.AddScoped<IWriteOnlyUserRepository, UserRepository>();
+        
+        //Company Repositories
+        services.AddScoped<IReadOnlyCompanyRepository, CompanyRepository>();
+        services.AddScoped<IWriteOnlyCompanyRepository, CompanyRepository>();
     }
     
     private static void AddDatabase(IServiceCollection services, IConfiguration configuration) {

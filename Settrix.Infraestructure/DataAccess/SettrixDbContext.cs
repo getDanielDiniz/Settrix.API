@@ -6,6 +6,7 @@ namespace Settrix.Infraestructure.DataAccess;
 public class SettrixDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Company> Companies { get; set; }
     public SettrixDbContext(DbContextOptions<SettrixDbContext> options) : base(options){}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,18 +37,25 @@ public class SettrixDbContext : DbContext
                 Name = "Bill Gatos", 
             });
         
-        //Users -> User 1:0 relationship
+        //Users -> User 1:n relationship
         modelBuilder.Entity<User>()
             .HasOne(u => u.CreatedByUser)
             .WithMany()
             .HasForeignKey(u => u.CreatedBy)
             .IsRequired(true);
         
-        //Users -> User 1:0 relationship
+        //Users -> User 1:n relationship
         modelBuilder.Entity<User>()
             .HasOne(u => u.UpdatedByUser)
             .WithMany()
             .HasForeignKey(u => u.UpdatedBy)
             .IsRequired(false);
+        
+        //Companies -> User 1:n relationship
+        modelBuilder.Entity<Company>()
+            .HasOne(c => c.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .IsRequired(true);
     }
 }

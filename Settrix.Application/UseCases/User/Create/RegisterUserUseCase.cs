@@ -70,7 +70,7 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         if (result.IsValid == false)
         {
-            throw new ErrorOnUserValidation(responseMessages);
+            throw new ErrorOnRequestValidation(responseMessages);
         }
         
         var usedEmail = await _readOnlyRepository.EmailAlreadyExists(newUser.Email);

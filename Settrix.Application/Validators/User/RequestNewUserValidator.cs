@@ -16,7 +16,5 @@ public class RequestNewUserValidator: AbstractValidator<RequestRegisterUserJson>
         
         RuleFor(u => u.Password).SetValidator(new PasswordValidator<RequestRegisterUserJson>());
         RuleFor(u => u.Role).IsInEnum().WithMessage(UserResource.INVALID_ROLE);
-        RuleFor(u => u.CompanyId).NotEmpty().GreaterThan(0);
-        RuleFor(u => u.CreatedBy).NotEmpty().GreaterThan(0);
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Settrix.Infraestructure.DataAccess;
@@ -11,9 +12,11 @@ using Settrix.Infraestructure.DataAccess;
 namespace Settrix.Infraestructure.Migrations
 {
     [DbContext(typeof(SettrixDbContext))]
-    partial class SettrixDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250721001258_CompanyTable")]
+    partial class CompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

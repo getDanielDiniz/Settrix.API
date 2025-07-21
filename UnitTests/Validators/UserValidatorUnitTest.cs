@@ -61,28 +61,4 @@ public class UserValidatorUnitTest
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle().And.Contain(e => e.ErrorMessage == UserResource.INVALID_EMAIL);
     }
-    
-    [Theory]
-    [InlineData(null)]
-    [InlineData(-1)]
-    public void InvalidCompanyId(long id)
-    {
-        User.CompanyId = id;
-        
-        var result = Validator.Validate(User);
-        
-        result.IsValid.Should().BeFalse();
-    }
-    
-    [Theory]
-    [InlineData(null)]
-    [InlineData(-1)]
-    public void InvalidCreatedBy(long id)
-    {
-        User.CreatedBy = id;
-        
-        var result = Validator.Validate(User);
-        
-        result.IsValid.Should().BeFalse();
-    }
 }
