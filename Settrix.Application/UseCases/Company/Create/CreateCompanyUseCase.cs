@@ -20,12 +20,14 @@ public class CreateCompanyUseCase : ICreateCompanyUseCase
     public CreateCompanyUseCase(
         IMapper mapper,
         IReadOnlyCompanyRepository readRepository,
-        IWriteOnlyCompanyRepository writeRepository
+        IWriteOnlyCompanyRepository writeRepository,
+        ILoggedUserProvider loggedUser
         )
     {
         _mapper = mapper;
         _readRepository = readRepository;
         _writeRepository = writeRepository;
+        _loggedUser = loggedUser;
     }
     
     public async Task<ResponseCreatedCompanyJson> Execute(RequestRegisterCompanyJson company)

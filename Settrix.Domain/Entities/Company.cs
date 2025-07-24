@@ -16,8 +16,6 @@ public class Company : SettrixBaseEntity
     public bool IsActive { get; set; } = true;
     public bool InDebt { get; set; } = false;
     public CompanyTierLevelType TierLevel { get; set; }
-    
-    public ICollection<Config>? Configs { get; set; }
     public ICollection<User>? Users { get; set; }
 
     

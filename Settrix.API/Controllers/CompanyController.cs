@@ -7,11 +7,11 @@ using Settrix.Comunication.DTO_s.Request.Company;
 namespace Settrix.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class CompanyController : Controller
 {
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> Create_Company(
         [FromBody]RequestRegisterCompanyJson company,
         [FromServices]ICreateCompanyUseCase useCase
