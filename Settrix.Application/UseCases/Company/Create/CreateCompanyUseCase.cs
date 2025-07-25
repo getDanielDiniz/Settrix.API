@@ -56,7 +56,7 @@ public class CreateCompanyUseCase : ICreateCompanyUseCase
                 new ValidationFailure("ErrorMessage",CompanyResource.CNPJ_ALREADY_USED)
             );
         
-        if (result.IsValid is false && isCnpjExists)
+        if (result.IsValid is false || isCnpjExists)
         {
             var errors = result.Errors.Select(x => x.ErrorMessage).ToList();
             throw new ErrorOnRequestValidation(errors);

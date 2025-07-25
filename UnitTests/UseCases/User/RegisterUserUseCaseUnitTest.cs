@@ -9,7 +9,7 @@ using Settrix.Exception.BaseExceptions;
 
 namespace UnitTests;
 
-public class UserUseCaseUnitTest
+public class RegisterUserUseCaseUnitTest
 {
     [Fact]
     public async Task ValidRequest()

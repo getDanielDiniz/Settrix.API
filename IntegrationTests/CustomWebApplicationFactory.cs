@@ -1,24 +1,19 @@
 using ComunTestsUtilities.Builders;
+using IntegrationTests.Managers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Settrix.Domain.Security.Authentication;
 using Settrix.Domain.Security.Criptography;
+using Settrix.Domain.Types;
 using Settrix.Infraestructure.DataAccess;
 
 namespace IntegrationTests;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
-    private string _email { get; set; }
-    private string _name { get; set; }
-    private string _password { get; set; }
-    
-    public string GetEmail => _email;
-    public string GetName => _name;
-    public string GetPassword => _password;
-    
+    public UserEntityManager User_Employee;
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Test")
@@ -33,19 +28,30 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 });
                     var dbContext = services.BuildServiceProvider().GetRequiredService<SettrixDbContext>();
                     var criptoHand = services.BuildServiceProvider().GetRequiredService<ICriptographyHanddle>();
-                    StartDatabase(dbContext, criptoHand);
+                    var logginUser = services.BuildServiceProvider().GetRequiredService<ILogginUser>();
+                    StartDatabase(dbContext, criptoHand, logginUser);
             });
     }
 
-    private void StartDatabase(SettrixDbContext dbContext, ICriptographyHanddle criptographyHanddle)
+    private void StartDatabase(
+        SettrixDbContext dbContext,
+        ICriptographyHanddle criptographyHanddle,
+        ILogginUser logginUser
+    )
     {
-        var user = UserEntityBuilder.Build();
-        _email = user.Email;
-        _name = user.Name;
-        _password = user.Password;
+        ADD_EMPLOYEE(dbContext, criptographyHanddle, logginUser);   
         
-        user.Password = criptographyHanddle.HashPassword(user.Password);
-        dbContext.Users.Add(user);
         dbContext.SaveChanges();
+    }
+
+    private void ADD_EMPLOYEE(
+        SettrixDbContext dbContext,
+        ICriptographyHanddle criptographyHanddle,
+        ILogginUser logginUser
+    )
+    {
+        User_Employee = new UserEntityManager(criptographyHanddle, logginUser)
+            .WithRole(UserRoleType.Employee);
+        dbContext.Users.Add(User_Employee.GetUser);
     }
 }
