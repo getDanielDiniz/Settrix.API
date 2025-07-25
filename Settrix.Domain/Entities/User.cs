@@ -15,8 +15,8 @@ public class User : SettrixBaseEntity
     public string Password { get; set; } = string.Empty;
     public UserRoleType Role {  get; set; } = UserRoleType.Employee;
     public bool IsActive { get; set; } = true;
-    
-    [ForeignKey("Company")]
-    public long CompanyId { get; set; }
-    public Company Company { get; set; }
+
+
+    public long? CompanyId { get; set; }
+    public Company? Company { get; set; }
 }

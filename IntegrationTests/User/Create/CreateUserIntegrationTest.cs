@@ -13,7 +13,7 @@ namespace IntegrationTests.User.Create;
 public class CreateUserIntegrationTest : CustomClassFixture
 {
     
-    private readonly string URI = "api/user";
+    private readonly string URI = "api/user/register";
 
     public CreateUserIntegrationTest(CustomWebApplicationFactory factory) : base(factory){}
     
@@ -22,7 +22,7 @@ public class CreateUserIntegrationTest : CustomClassFixture
     {
         var request = RequestRegisterUserBuilder.Build();
         
-        var curlMessage = await DoPost($"{URI}/register", request);
+        var curlMessage = await DoPost(URI, request);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
         
@@ -37,7 +37,7 @@ public class CreateUserIntegrationTest : CustomClassFixture
         var request = RequestRegisterUserBuilder.Build();
         request.Email = String.Empty;
         
-        var curlMessage = await DoPost($"{URI}/register", request);
+        var curlMessage = await DoPost(URI, request);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
         
@@ -52,7 +52,7 @@ public class CreateUserIntegrationTest : CustomClassFixture
         var request = RequestRegisterUserBuilder.Build();
         request.Email = String.Empty;
         
-        var curlMessage = await DoPost(url:$"{URI}/register", data:request, culture:culture);
+        var curlMessage = await DoPost(url:URI, data:request, culture:culture);
         var body = curlMessage.Content.ReadAsStreamAsync().Result;
         var response = await JsonDocument.ParseAsync(body);
         var resource = UserResource.ResourceManager.GetString("EMPTY_EMAIL", CultureInfo.GetCultureInfo(culture));

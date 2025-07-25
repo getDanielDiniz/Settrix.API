@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Settrix.Infraestructure.DataAccess;
@@ -11,9 +12,11 @@ using Settrix.Infraestructure.DataAccess;
 namespace Settrix.Infraestructure.Migrations
 {
     [DbContext(typeof(SettrixDbContext))]
-    partial class SettrixDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250724213143_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +78,7 @@ namespace Settrix.Infraestructure.Migrations
                         {
                             Id = 1L,
                             Cnpj = "1234567890123",
-                            CreatedAt = new DateTime(2025, 7, 24, 22, 25, 24, 323, DateTimeKind.Utc).AddTicks(4185),
+                            CreatedAt = new DateTime(2025, 7, 24, 21, 31, 43, 616, DateTimeKind.Utc).AddTicks(6496),
                             CreatedBy = 1L,
                             Function = 2,
                             InDebt = false,
@@ -93,7 +96,7 @@ namespace Settrix.Infraestructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("CompanyId")
+                    b.Property<long>("CompanyId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -143,14 +146,15 @@ namespace Settrix.Infraestructure.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2025, 7, 24, 22, 25, 24, 318, DateTimeKind.Utc).AddTicks(1923),
+                            CompanyId = 0L,
+                            CreatedAt = new DateTime(2025, 7, 24, 21, 31, 43, 611, DateTimeKind.Utc).AddTicks(6066),
                             CreatedBy = 1L,
                             Email = "",
                             IsActive = true,
                             Name = "Bill Gatos",
                             Password = "",
                             Role = 0,
-                            SecurityId = new Guid("b0768b17-fa61-4246-a36b-21e3b9e37a64")
+                            SecurityId = new Guid("320ef9b7-608c-4fb0-9c57-83bcb73694e8")
                         });
                 });
 

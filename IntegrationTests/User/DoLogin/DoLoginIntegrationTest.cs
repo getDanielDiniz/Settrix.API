@@ -5,6 +5,7 @@ using System.Text.Json;
 using ComunTestsUtilities.Builders;
 using FluentAssertions;
 using IntegrationTests.InlineData;
+using IntegrationTests.Managers;
 using Settrix.Comunication.DTO_s.Request;
 using Settrix.Comunication.Resources.User;
 
@@ -12,18 +13,14 @@ namespace IntegrationTests.User.DoLogin;
 
 public class DoLoginIntegrationTest : IClassFixture<CustomWebApplicationFactory>
 {
-    private readonly string URI = "api/user";
+    private readonly string URI = "api/user/login";
     private readonly HttpClient _client;
-    private string _email { get; set; }
-    private string _name { get; set; }
-    private string _password { get; set; }
+    private UserEntityManager _employee { get;}
     
     public DoLoginIntegrationTest(CustomWebApplicationFactory factory)
     {
         _client = factory.CreateClient(); 
-        _email = factory.GetEmail;
-        _name = factory.GetName;
-        _password = factory.GetPassword;
+        _employee = factory.User_Employee!;
     }
 
     [Fact]
@@ -31,18 +28,18 @@ public class DoLoginIntegrationTest : IClassFixture<CustomWebApplicationFactory>
     {
         var request = new RequestLoginCredentialsJson()
         {
-            Password = _password,
-            Email = _email
+            Password = _employee.GetUser.Password,
+            Email = _employee.GetUser.Email
         };
         var jsonRequest = JsonSerializer.Serialize(request);
         var content = new StringContent(jsonRequest,Encoding.UTF8,"application/json");
         
-        var curlMessage = await _client.PostAsync($"{URI}/login", content);
+        var curlMessage = await _client.PostAsync(URI, content);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
 
         curlMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        response.RootElement.GetProperty("email").GetString().Should().Be(_email);
+        response.RootElement.GetProperty("email").GetString().Should().Be(_employee.GetUser.Email);
         response.RootElement.GetProperty("token").GetString().Should().NotBeNullOrEmpty();
     }
     
@@ -51,12 +48,12 @@ public class DoLoginIntegrationTest : IClassFixture<CustomWebApplicationFactory>
     public async Task Login_Error(string culture)
     {
         var request = RequestCredentialLoginBuilder.Build();
-        request.Email = _email;
+        request.Email = _employee.GetUser.Email;
         var json = JsonSerializer.Serialize(request);
         var content = new StringContent(json,Encoding.UTF8,"application/json");
         _client.DefaultRequestHeaders.Add("Accept-Language", culture);
         
-        var curlMessage = await _client.PostAsync($"{URI}/login", content);
+        var curlMessage = await _client.PostAsync(URI, content);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
         var message = UserResource.ResourceManager.GetString("INCORRECT_CREDENTIALS", new CultureInfo(culture));

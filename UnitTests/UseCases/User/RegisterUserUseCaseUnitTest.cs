@@ -9,7 +9,7 @@ using Settrix.Exception.BaseExceptions;
 
 namespace UnitTests;
 
-public class UserUseCaseUnitTest
+public class RegisterUserUseCaseUnitTest
 {
     [Fact]
     public async Task ValidRequest()
@@ -32,7 +32,7 @@ public class UserUseCaseUnitTest
         
         var act = async ()=>await useCase.Execute(request);
 
-        await act.Should().ThrowAsync<ErrorOnUserValidation>();
+        await act.Should().ThrowAsync<ErrorOnRequestValidation>();
     }
 
     [Fact]

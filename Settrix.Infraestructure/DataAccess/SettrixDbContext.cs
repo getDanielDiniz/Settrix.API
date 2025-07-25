@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Settrix.Domain.Entities;
+using Settrix.Domain.Types;
 
 namespace Settrix.Infraestructure.DataAccess;
 
 public class SettrixDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Company> Companies { get; set; }
     public SettrixDbContext(DbContextOptions<SettrixDbContext> options) : base(options){}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,7 +24,7 @@ public class SettrixDbContext : DbContext
             .HasOne(u => u.Company)
             .WithMany(c => c.Users)
             .HasForeignKey(u => u.CompanyId)
-            .IsRequired(true);
+            .IsRequired(false);
 
         modelBuilder.Entity<User>()
             .HasData(new User()
@@ -31,23 +33,51 @@ public class SettrixDbContext : DbContext
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = 1,
                 SecurityId = Guid.NewGuid(),
+                CompanyId = null,
                 IsActive = true,
-                CompanyId = 5,
                 Name = "Bill Gatos", 
             });
         
-        //Users -> User 1:0 relationship
+        //Users -> User 1:n relationship
         modelBuilder.Entity<User>()
             .HasOne(u => u.CreatedByUser)
             .WithMany()
             .HasForeignKey(u => u.CreatedBy)
             .IsRequired(true);
         
-        //Users -> User 1:0 relationship
+        //Users -> User 1:n relationship
         modelBuilder.Entity<User>()
             .HasOne(u => u.UpdatedByUser)
             .WithMany()
             .HasForeignKey(u => u.UpdatedBy)
             .IsRequired(false);
+        
+        //Companies -> User 1:n relationship
+        modelBuilder.Entity<Company>()
+            .HasOne(c => c.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .IsRequired();
+        
+        //Companies -> User 1:n relationship
+        modelBuilder.Entity<Company>()
+            .HasOne(c => c.UpdatedByUser)
+            .WithMany()
+            .HasForeignKey(c => c.UpdatedBy)
+            .IsRequired(false);
+        
+        modelBuilder.Entity<Company>()
+            .HasData(new Company()
+            {
+                Id = 1,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = 1,
+                IsActive = true,
+                Name = "Settrix",
+                Cnpj = "1234567890123",
+                Function = CompanyFunctionType.SettrixDevelopment,
+                InDebt = false,
+                TierLevel = CompanyTierLevelType.Settrix,
+            });
     }
 }

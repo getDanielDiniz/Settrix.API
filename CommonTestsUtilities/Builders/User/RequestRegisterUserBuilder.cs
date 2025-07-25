@@ -13,9 +13,7 @@ public abstract class RequestRegisterUserBuilder
             .RuleFor(u => u.Email, f => f.Internet.Email())
             .RuleFor(u => u.Password,
                 f => f.Internet.Password(12, prefix: "Mud@"))
-            .RuleFor(u => u.Role, f => UserRoleType.Employee)
-            .RuleFor(u => u.CompanyId, f => f.Random.Long(min: 1))
-            .RuleFor(u => u.CreatedBy, f => f.Random.Long(min:1));
+            .RuleFor(u => u.Role, f => UserRoleType.Employee);
 
         return faker.Generate();
     }
