@@ -11,15 +11,13 @@ using Settrix.Comunication.Resources.User;
 
 namespace IntegrationTests.User.DoLogin;
 
-public class DoLoginIntegrationTest : IClassFixture<CustomWebApplicationFactory>
+public class DoLoginIntegrationTest : CustomClassFixture
 {
     private readonly string URI = "api/user/login";
-    private readonly HttpClient _client;
     private UserEntityManager _employee { get;}
     
-    public DoLoginIntegrationTest(CustomWebApplicationFactory factory)
+    public DoLoginIntegrationTest(CustomWebApplicationFactory factory) : base(factory)
     {
-        _client = factory.CreateClient(); 
         _employee = factory.User_Employee!;
     }
 
@@ -28,13 +26,10 @@ public class DoLoginIntegrationTest : IClassFixture<CustomWebApplicationFactory>
     {
         var request = new RequestLoginCredentialsJson()
         {
-            Password = _employee.GetUser.Password,
+            Password = _employee.GetNotHashedPassword,
             Email = _employee.GetUser.Email
         };
-        var jsonRequest = JsonSerializer.Serialize(request);
-        var content = new StringContent(jsonRequest,Encoding.UTF8,"application/json");
-        
-        var curlMessage = await _client.PostAsync(URI, content);
+        var curlMessage = await DoPost(URI, request);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
 
@@ -49,11 +44,8 @@ public class DoLoginIntegrationTest : IClassFixture<CustomWebApplicationFactory>
     {
         var request = RequestCredentialLoginBuilder.Build();
         request.Email = _employee.GetUser.Email;
-        var json = JsonSerializer.Serialize(request);
-        var content = new StringContent(json,Encoding.UTF8,"application/json");
-        _client.DefaultRequestHeaders.Add("Accept-Language", culture);
         
-        var curlMessage = await _client.PostAsync(URI, content);
+        var curlMessage = await DoPost(URI, request, culture: culture);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
         var message = UserResource.ResourceManager.GetString("INCORRECT_CREDENTIALS", new CultureInfo(culture));

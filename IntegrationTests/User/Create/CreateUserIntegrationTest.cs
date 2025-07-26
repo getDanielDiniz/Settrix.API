@@ -5,6 +5,7 @@ using System.Text.Json;
 using CommunTestsUtilities;
 using FluentAssertions;
 using IntegrationTests.InlineData;
+using IntegrationTests.Managers;
 using Newtonsoft.Json;
 using Settrix.Comunication.Resources.User;
 
@@ -14,15 +15,19 @@ public class CreateUserIntegrationTest : CustomClassFixture
 {
     
     private readonly string URI = "api/user/register";
+    private UserEntityManager _employee { get;}
 
-    public CreateUserIntegrationTest(CustomWebApplicationFactory factory) : base(factory){}
+    public CreateUserIntegrationTest(CustomWebApplicationFactory factory) : base(factory)
+    {
+        _employee = factory.User_Employee!;       
+    }
     
     [Fact]
     public async Task CreateUser_Success()
     {
         var request = RequestRegisterUserBuilder.Build();
         
-        var curlMessage = await DoPost(URI, request);
+        var curlMessage = await DoPost(URI, request, token: _employee.GetToken);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
         
@@ -37,7 +42,7 @@ public class CreateUserIntegrationTest : CustomClassFixture
         var request = RequestRegisterUserBuilder.Build();
         request.Email = String.Empty;
         
-        var curlMessage = await DoPost(URI, request);
+        var curlMessage = await DoPost(URI, request, token: _employee.GetToken);
         var body = await curlMessage.Content.ReadAsStreamAsync();
         var response = await JsonDocument.ParseAsync(body);
         
@@ -52,7 +57,7 @@ public class CreateUserIntegrationTest : CustomClassFixture
         var request = RequestRegisterUserBuilder.Build();
         request.Email = String.Empty;
         
-        var curlMessage = await DoPost(url:URI, data:request, culture:culture);
+        var curlMessage = await DoPost(url:URI, data:request, token: _employee.GetToken, culture:culture);
         var body = curlMessage.Content.ReadAsStreamAsync().Result;
         var response = await JsonDocument.ParseAsync(body);
         var resource = UserResource.ResourceManager.GetString("EMPTY_EMAIL", CultureInfo.GetCultureInfo(culture));

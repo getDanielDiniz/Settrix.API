@@ -29,5 +29,9 @@
       <ProjectReference Include="..\CommonTestsUtilities\CommonTestsUtilities.csproj" />
       <ProjectReference Include="..\Settrix.API\Settrix.API.csproj" />
     </ItemGroup>
-
+  
+    <Target Name="CreateResourceDirs" BeforeTargets="BeforeBuild">
+      <MakeDir Directories="$(OutputPath)pt-br\" />
+    </Target>
+  
 </Project>

@@ -19,5 +19,9 @@
     <ProjectReference Include="..\Settrix.Application\Settrix.Application.csproj" />
     <ProjectReference Include="..\Settrix.Comunication\Settrix.Comunication.csproj" />
   </ItemGroup>
+  
+  <Target Name="CreateResourceDirs" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(OutputPath)pt-br\" />
+  </Target>
 
 </Project>

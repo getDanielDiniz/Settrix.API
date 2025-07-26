@@ -9,7 +9,7 @@ public class UserEntityManager
 {
     private Settrix.Domain.Entities.User User { get; }
     private string Token { get; }
-    private string HashedPassword { get; }
+    private string NotHashedPassword { get; }
     
     public UserEntityManager(
         ICriptographyHanddle criptographyHanddle,
@@ -17,15 +17,15 @@ public class UserEntityManager
     )
     {
         User = UserEntityBuilder.Build();
-        HashedPassword = criptographyHanddle.HashPassword(User.Password);
+        NotHashedPassword = User.Password;
+        User.Password = criptographyHanddle.HashPassword(User.Password);
         Token = logginUser.Generate(User);
-        HashedPassword = User.Password;
     }
     
     //Callbacks to get the state
     public Settrix.Domain.Entities.User GetUser => User;
     public string GetToken => Token;
-    public string GetHashedPassword => HashedPassword;
+    public string GetNotHashedPassword => NotHashedPassword;
     
     //Builders to set the state
     public UserEntityManager WithRole(UserRoleType role)
